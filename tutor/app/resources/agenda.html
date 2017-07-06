@@ -1,0 +1,138 @@
+<!--[main]-->
+<style>
+.agenda-entry a
+{
+    color: white;
+}
+
+.agenda-day
+{
+    width:12%;
+//    border:1px solid gray;
+    float:left;
+    height:624px;
+  //  padding:1px;
+}
+
+.agenda-entry
+{
+    background-color: #6F88F3;
+    border:1px solid lightgray;
+    border-top:0;
+    height:24px;
+    padding:5px;
+    box-sizing: border-box;
+   // margin-bottom:1px;
+    overflow:hidden;
+}
+
+.column0
+{
+    width: 7%;
+}
+
+div.column0 div.agenda-entry
+{
+    text-align: center;
+    background-color: white;
+}
+
+.agenda-day-title
+{
+    height:24px;
+    box-sizing: border-box;
+    font-size      : 10pt;
+    border: 1px solid gray;
+    padding: 3px;
+    background-color: #E8E8E8;
+    -webkit-box-shadow: inset 0 1px 0 #ffffff;
+    -moz-box-shadow: inset 0 1px 0 #ffffff;
+    box-shadow: inset 0 1px 0 #ffffff;
+    text-shadow: 1px 1px 0px #fff;
+    font-weight: bold;
+    color: #2B2B2B;
+    margin-bottom:1px;
+    overflow:hidden;
+}
+
+.event-title
+{
+    color: white;
+    font-size: 12px;
+    display:inline-block;
+    width:40px;
+    overflow:hidden;
+}
+
+.event-description
+{
+    color: white;
+    font-size: 10px;
+}
+</style>
+
+<div style="width: 100%; min-width: 700px; margin-bottom: 10px;display:block;float:left">
+    <div class="agenda-day column0">
+        <div class="agenda-day-title">Hour</div>
+        <div class="agenda-entry">0:00</div>
+        <div class="agenda-entry">1:00</div>
+        <div class="agenda-entry">2:00</div>
+        <div class="agenda-entry">3:00</div>
+        <div class="agenda-entry">4:00</div>
+        <div class="agenda-entry">5:00</div>
+        <div class="agenda-entry">6:00</div>
+        <div class="agenda-entry">7:00</div>
+        <div class="agenda-entry">8:00</div>
+        <div class="agenda-entry">9:00</div>
+        <div class="agenda-entry">10:00</div>
+        <div class="agenda-entry">11:00</div>
+        <div class="agenda-entry">12:00</div>
+        <div class="agenda-entry">13:00</div>
+        <div class="agenda-entry">14:00</div>
+        <div class="agenda-entry">15:00</div>
+        <div class="agenda-entry">16:00</div>
+        <div class="agenda-entry">17:00</div>
+        <div class="agenda-entry">18:00</div>
+        <div class="agenda-entry">19:00</div>
+        <div class="agenda-entry">20:00</div>
+        <div class="agenda-entry">21:00</div>
+        <div class="agenda-entry">22:00</div>
+        <div class="agenda-entry">23:00</div>
+    </div>
+    
+    <div class="agenda-day">
+        <div class="agenda-day-title">Sun</div>
+        {$day1}
+    </div>
+    
+    <div class="agenda-day">
+        <div class="agenda-day-title">Mon</div>
+        {$day2}
+    </div>
+    
+    <div class="agenda-day">
+        <div class="agenda-day-title">Tue</div>
+        {$day3}
+    </div>
+    
+    <div class="agenda-day">
+        <div class="agenda-day-title">Wed</div>
+        {$day4}
+    </div>
+    
+    <div class="agenda-day">
+        <div class="agenda-day-title">Thu</div>
+        {$day5}
+    </div>
+    
+    <div class="agenda-day">
+        <div class="agenda-day-title">Fri</div>
+        {$day6}
+    </div>
+    
+    <div class="agenda-day">
+        <div class="agenda-day-title">Sat</div>
+        {$day7}
+    </div>
+</div>
+<!--[/main]-->

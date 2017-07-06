@@ -1,0 +1,20 @@
+<!--[main]-->
+<div class="catalog">
+    <!--[manage]-->
+    <div style="clear:both;display:block;height:30px">
+        <a generator="adianti" href="index.php?class=CartManagementView" class="btn btn-default btn-info" style="float:right"> Manage cart </a>
+    </div>
+    <!--[/manage]-->
+    
+    <!--[products]-->
+    <div class="product">
+        <div style="height:150px;">
+            <img src="{$photo_path}" style="max-width: 150px;"><br>
+        </div>
+        {$description}<br>
+        {$sale_price}<br>
+        <a generator="adianti" class="btn btn-default btn-success" href="index.php?class=ProductCatalogView&method=onBuyClick&product_id={$id}">Click to buy</a>
+    </div>
+    <!--[/products]-->
+<div>
+<!--[/main]-->

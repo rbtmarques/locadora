@@ -1,0 +1,46 @@
+.formwrapper
+{
+	background: #ffffff;
+	margin: 0px;
+	padding: 17px;
+	width: 600px;
+	top: 0px;
+	left: 0;
+	border: solid 1px #b4b4b4;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+	-webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, .3);
+	-moz-box-shadow: 0 1px 10px rgba(0, 0, 0, .3);
+	box-shadow: 0 1px 10px rgba(0, 0, 0, .3);
+}
+
+.formtitle
+{
+	background: #3D9459;
+	color: white;
+	font-weight: bold;
+	margin: 0px;
+	padding: 17px;
+	width: 600px;
+	top: 0px;
+	left: 0;
+	border: solid 1px #b4b4b4;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.formwrapper label[class^="tlabel"]
+{
+	font-weight: bold;
+	color: #525252;
+	text-decoration: none;
+	display: block;
+}

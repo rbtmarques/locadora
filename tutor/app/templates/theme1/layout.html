@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adianti Framework :: Samples</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    {LIBRARIES}
+    {HEAD}
+    <link href="app/resources/custom-frame.css" rel="stylesheet" type="text/css" media="screen" />
+    
+    <script type="text/javascript">
+    Adianti.onBeforeLoad = function(url)
+    {
+        url = url.replace('class', 'classname');
+        url  = url+'&class=DocumentationView&method=onHelp';
+        $('#view-source').attr('href', url);
+        
+        query = __adianti_query_to_json(url.replace('engine.php?', ''));
+        if (query.classname == 'HomeView')
+        {
+            $(".side-panel").css('display', 'none');
+            $("html, body").animate({ scrollTop: 0 }, "fast");
+        }
+        else
+        {
+            $(".side-panel").css('display', 'block');
+        }
+    };
+    
+    Adianti.onBeforePost = function(url) { 
+        if (url.indexOf('&static=1') == -1) {
+            __adianti_register_state(url);
+            Adianti.onBeforeLoad(url);
+        }
+    };
+    
+    Adianti.onAfterLoad = function(url) {
+        if ($('#adianti_div_content').find('code').length > 0)
+        {
+            $('#view-source').attr('class', 'btn');
+            $('#view-source').attr('disabled', 1);
+        }
+        else
+        {
+            $('#view-source').attr('class', 'btn btn-success');
+            $('#view-source').attr('disabled', null);
+        }
+    };
+    // Adianti.onAfterPost = function(url) { console.log("after post"); };
+    
+    $( document ).on( 'click', '[generator="adianti-docs"]', function()
+    {
+        url = $(this).attr('href').replace('index.php', 'engine.php');
+       __adianti_load_page_no_register(url);
+       return false;
+    });
+    
+    window.onpopstate = function(stackstate)
+    {
+    	if (stackstate.state)
+    	{
+    		__adianti_load_page_no_register(stackstate.state.url);
+    	}
+    };
+    
+    $(function() {
+        $.get('engine.php?class=SearchBox', function(data)
+        {
+          $('.navbar-nav').wrap( "<div id='navbar-wrapper'></div>" );
+          $('.navbar-nav').after(data).show();
+          var search_box = $('.navbar-nav').next();
+          search_box.css('padding-top', '10px');
+          search_box.css('margin-right', '10px');
+          search_box.css('float', 'right');
+          search_box.attr('id', 'search-box');
+        });
+    });
+    </script>
+</head>
+<body>
+    <div class="adianti_container">
+        <div class="header">
+            <div class="thin_bar">
+                &nbsp;
+            </div>
+            <div class="header_content">
+                <div class="logo1" style="position:relative; width:48%; padding-top:14px">
+                    <a target="newwindow" href="http://www.adianti.com.br/framework">
+                        <img src="app/templates/theme1/images/framework.png">
+                    </a>
+                </div>
+                
+                <div class="logo2" style="position:relative; width:48%">
+                    <a target="newwindow" href="http://www.adianti.com.br">
+                        <img src="app/templates/theme1/images/adianti.png">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="header_bottom" style="clear:both"></div>
+        </div>
+        
+        <div class="body">
+            <div id="menuDiv">
+                <div class="tutor-navbar">
+                  <div class="tutor-navbar-inner">
+                    {MENU}
+                  </div>
+                </div>
+            </div>
+            <div class="side-panel">
+                <button style="width:160px; margin-bottom:5px" generator="adianti" class="btn btn-default" href="index.php?class=HomeView"><i class="fa fa-home"></i> Home Screen</button>
+                <button style="width:160px" id="view-source" generator="adianti-docs" class="btn btn-success" href="index.php?class=DocumentationView&classname={class}&method=onHelp"><i class="fa fa-code"></i> View Source-code</button>
+                <br><br>
+                <a target="newwindow" href="http://www.adianti.com.br/bkframe"><img src="app/templates/theme1/images/bkframe.png"></a><br>
+                Book
+            </div>
+            <div id="adianti_div_content" class="content"></div>
+            <div id="adianti_online_content"></div>
+            <div id="adianti_online_content2"></div>
+            <div id="pageboth"><br></div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!--[main]-->
+<table class="customform">
+    <tr>
+        <td colspan="3" class="formtitle">Customer data</td>
+    </tr>
+    <tr>
+        <td width="50%"><b>Code</b></td>
+        <td width="50%" colspan=2><span class="formfield">{$object->id}</span></td>
+    </tr>
+    <tr>
+        <td><b>Name</b></td>
+        <td colspan=2><span class="formfield">{$object->name}</span></td>
+    </tr>
+    <!--[header]-->
+    <tr>
+        <td><b>{$name}</b></td>
+        <td colspan=2><span class="formfield">{$value}</span></td>
+    </tr>
+    <!--[/header]-->
+    
+    <tr>
+        <td class="sectiontitle" colspan=3>Detail 1</td>
+    </tr>
+    
+    <!--[accounts1]-->
+    <tr bgcolor="#e0e0e0">
+        <td align="center" colspan="3"><b>Date</b>: {$date} / <b>Total sale</b>: {$value} </td>
+    </tr>
+    <tr bgcolor="#FFDFB6">
+        <td align="center">Product</td>
+        <td>Qty</td>
+        <td>Value</td>
+    </tr>
+        <!--[details]-->
+        <tr>
+            <td align="center">{$product}</td>
+            <td>{$qty}</td>
+            <td>R$ {$value}</td>
+        </tr>
+        <!--[/details]-->
+    <!--[/accounts1]-->
+    
+    <tr>
+        <td class="sectiontitle" colspan=3>Detail 2</td>
+    </tr>
+    <!--[accounts2]-->
+    <tr bgcolor="#e0e0e0">
+        <td align="center" colspan="3"><b>Date</b>: {$date} / <b>Total sale</b>: {$value} </td>
+    </tr>
+    <tr bgcolor="#FFDFB6">
+        <td align="center">Product</td>
+        <td>Qty</td>
+        <td>Value</td>
+    </tr>
+        <!--[details]-->
+        <tr>
+            <td align="center">{$product}</td>
+            <td>{$qty}</td>
+            <td>R$ {$value}</td>
+        </tr>
+        <!--[/details]-->
+    <!--[/accounts2]-->
+</table>
+<!--[/main]-->
