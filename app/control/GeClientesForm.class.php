@@ -36,8 +36,9 @@ class GeClientesForm extends TPage
         $sexo = new TCombo('sexo');
         $endereco = new TEntry('endereco');
         $complemento = new TEntry('complemento');
+        $uf = new TCombo('uf');
         $i_bairro = new TCombo('i_bairro');
-        $i_cidade = new TSeekButton('i_cidade');
+        $i_cidade = new TCombo('i_cidade');
         $cep = new TEntry('cep');
         $e_mail = new TEntry('e_mail');
         $rg = new TEntry('rg');
@@ -58,6 +59,21 @@ class GeClientesForm extends TPage
         $sexo->addItems(['M'=>'Masculino', 'F'=>'Feminino']);
         $sexo->setValue('M');
         
+         // add itens opc estados
+        TTransaction::open('filmes');
+        $collection = GeEstados::all();
+        $criteria = new TCriteria();
+        $criteria->setProperty('order', 'nome');
+        $repository = new TRepository('GeEstados');
+        $customers = $repository->load($criteria); //order
+        $itemsEstado = array();
+        foreach ($customers as $object)
+        {
+            $itemsEstado[$object->i_estado] = $object->nome;
+        }
+        TTransaction::close();
+        $uf->addItems($itemsEstado);
+        
         // add itens opc bairros
         TTransaction::open('filmes');
         $collection = GeBairros::all();
@@ -67,10 +83,7 @@ class GeClientesForm extends TPage
             $itemsBairro[$object->i_bairro] = $object->nome;
         }
         TTransaction::close();
-        
         $i_bairro->addItems($itemsBairro);
-        
-        $btAddBairro = TButton::create('btAddBairro',array($this,'onEdit'),'bairros','fa:plus');
 
         // add the fields
         //$this->form->addQuickField('Nome', $nome,  200 , new TRequiredValidator);
@@ -78,8 +91,9 @@ class GeClientesForm extends TPage
         //$this->form->addQuickField('Sexo', $sexo,  200 , new TRequiredValidator);
         $this->form->addQuickField('Endereco', $endereco,  450 );
         $this->form->addQuickField('Complemento', $complemento,  200 );
-        $this->form->addQuickFields('Bairro', array($i_bairro, $btAddBairro));
-        $this->form->addQuickField('Cidade', $i_cidade,  100 , new TRequiredValidator);
+        $this->form->addQuickField('UF', $uf,  200 , new TRequiredValidator);
+        $this->form->addQuickField('Cidade', $i_cidade,  200 , new TRequiredValidator);
+        $this->form->addQuickFields('Bairro', array($i_bairro));
         $this->form->addQuickField('CEP', $cep,  10 , new TRequiredValidator);
         $this->form->addQuickField('E-mail', $e_mail,  200 , new TRequiredValidator);
         $this->form->addQuickField('RG', $rg,  200 , new TRequiredValidator);
@@ -95,9 +109,12 @@ class GeClientesForm extends TPage
         $this->form->addQuickField('Situacao', $situacao,  200 );
         $this->form->addQuickField('Motivo', $motivo,  200 );
         $this->form->addQuickField('Valor Limite', $vl_limite,  200 );
-
-
-
+        
+       
+        // set exit action for input_exit
+        $uf_action = new TAction(array($this, 'onChangeAction'));
+        $uf->setChangeAction($uf_action);
+        
         
         if (!empty($i_cliente))
         {
@@ -121,6 +138,20 @@ class GeClientesForm extends TPage
         $container->add(TPanelGroup::pack('Title', $this->form));
         
         parent::add($container);
+    }
+    
+    public static function onChangeAction($param)
+    {
+        new TMessage('info', $param);
+        $obj = new StdClass;
+        $obj->response_c = 'Resp. for opt "'.$param['i_cidade'] . '" ' .date('H:m:s');
+        TForm::sendData('form_GeClientes', $obj);
+        
+        $options = array();
+        $options[1] = $param['i_cidade'] . ' - one';
+        $options[2] = $param['i_cidade'] . ' - two';
+        $options[3] = $param['i_cidade'] . ' - three';
+        TCombo::reload('form_GeClientes', 'i_cidade', $options);
     }
     
     public function onEdit(){}
