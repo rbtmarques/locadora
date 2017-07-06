@@ -40,16 +40,22 @@ class GeClientesForm extends TPage
         $i_bairro = new TCombo('i_bairro');
         $i_cidade = new TCombo('i_cidade');
         $cep = new TEntry('cep');
+        $cep->setMask('00000-000');
         $e_mail = new TEntry('e_mail');
         $rg = new TEntry('rg');
+        $rg->setMask('00.000.000-0');
         $cpf = new TEntry('cpf');
+        $cpf->setMask('000.000.000-00');
         $ddd_res = new TEntry('ddd_res');
         $fone_res = new TEntry('fone_res');
+        $fone_res->setMask('00000-0000');
         $dt_nasc = new TDate('dt_nasc');
+        $dt_nasc->setMask('dd/mm/yyyy');
+        $dt_nasc->setDatabaseMask('yyyy-mm-dd');
         $nome_pai = new TEntry('nome_pai');
         $nome_mae = new TEntry('nome_mae');
         $observacao = new TText('observacao');
-        $estado_civil = new TSelect('estado_civil');
+        $estado_civil = new TCombo('estado_civil');
         $conjuge = new TEntry('conjuge');
         $situacao = new TEntry('situacao');
         $motivo = new TEntry('motivo');
@@ -58,6 +64,10 @@ class GeClientesForm extends TPage
         //add opções sexo
         $sexo->addItems(['M'=>'Masculino', 'F'=>'Feminino']);
         $sexo->setValue('M');
+        
+        //add estado civil
+        $estado_civil->addItems(['M'=>'Masculino', 'F'=>'Feminino']);
+        $estado_civil->setValue('M');
         
          // add itens opc estados
         TTransaction::open('filmes');
@@ -84,6 +94,8 @@ class GeClientesForm extends TPage
         }
         TTransaction::close();
         $i_bairro->addItems($itemsBairro);
+        
+        //$i_cidade->setEditable(FALSE);
 
         // add the fields
         //$this->form->addQuickField('Nome', $nome,  200 , new TRequiredValidator);
@@ -94,15 +106,15 @@ class GeClientesForm extends TPage
         $this->form->addQuickField('UF', $uf,  200 , new TRequiredValidator);
         $this->form->addQuickField('Cidade', $i_cidade,  200 , new TRequiredValidator);
         $this->form->addQuickFields('Bairro', array($i_bairro));
-        $this->form->addQuickField('CEP', $cep,  10 , new TRequiredValidator);
+        $this->form->addQuickField('CEP', $cep,  100 , new TRequiredValidator);
         $this->form->addQuickField('E-mail', $e_mail,  200 , new TRequiredValidator);
         $this->form->addQuickField('RG', $rg,  200 , new TRequiredValidator);
         $this->form->addQuickField('CPF', $cpf,  200 , new TRequiredValidator);
-        $this->form->addQuickField('DDD', $ddd_res,  5 );
+        $this->form->addQuickField('DDD', $ddd_res,  50 );
         $this->form->addQuickField('Telefone', $fone_res,  200 , new TRequiredValidator);
         $this->form->addQuickField('Data de Nascimento', $dt_nasc,  100 , new TRequiredValidator);
-        $this->form->addQuickField('Nome Pai', $nome_pai,  200 );
-        $this->form->addQuickField('Nome Mae', $nome_mae,  200 );
+        $this->form->addQuickField('Nome Pai', $nome_pai,  450 );
+        $this->form->addQuickField('Nome Mae', $nome_mae,  450 );
         $this->form->addQuickField('Observacao', $observacao,  200 );
         $this->form->addQuickField('Estado Civil', $estado_civil,  200 );
         $this->form->addQuickField('Conjuge', $conjuge,  200 );
@@ -141,17 +153,33 @@ class GeClientesForm extends TPage
     }
     
     public static function onChangeAction($param)
-    {
-        new TMessage('info', $param);
+    {       
         $obj = new StdClass;
-        $obj->response_c = 'Resp. for opt "'.$param['i_cidade'] . '" ' .date('H:m:s');
-        TForm::sendData('form_GeClientes', $obj);
+        //$param['uf']
+        //add itens cidades
+        TTransaction::open('filmes');
+        $collection = GeCidades::all();
         
-        $options = array();
-        $options[1] = $param['i_cidade'] . ' - one';
-        $options[2] = $param['i_cidade'] . ' - two';
-        $options[3] = $param['i_cidade'] . ' - three';
-        TCombo::reload('form_GeClientes', 'i_cidade', $options);
+        $criteria = new TCriteria();
+        $criteria->setProperty('order', 'nome');//order
+        $criteria->add(new TFilter('i_estado', '=', $param['uf']));
+        
+        $repository = new TRepository('GeCidades');
+        $customers = $repository->load($criteria);
+        $count = $repository->count($criteria);
+        
+        $itemsCidades = array();
+        foreach ($customers as $object)
+        {
+            $itemsCidades[$object->i_cidade] = $object->nome;
+        }
+        TTransaction::close();
+        
+        if($count > 0){
+            TCombo::reload('form_GeClientes', 'i_cidade', $itemsCidades);
+        } else {
+            new TMessage('info', "Nenhuma cidade cadastrada para esse estado.");
+        }
     }
     
     public function onEdit(){}
